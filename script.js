@@ -11,8 +11,10 @@ document.getElementById("registrationForm").addEventListener("submit", function(
     localStorage.setItem("userName", userName);
     localStorage.setItem("userEvent", userEvent);
 
-    // Send email with EmailJS (optional)
+    // Initialize EmailJS (your public key)
     emailjs.init("EWdPecA2PpaSJj1R1");
+
+    // Send email using EmailJS
     emailjs.send("service_t5xo5j9", "template_zrj3h05", {
         user_name: userName,
         user_email: userEmail,
@@ -26,23 +28,32 @@ document.getElementById("registrationForm").addEventListener("submit", function(
         },
         function(error) {
             console.error("Email failed:", error);
-            // Still redirect even if email fails
-            window.location.href = "confirmation.html";
+            window.location.href = "confirmation.html"; // Still go to confirmation page
         }
     );
 });
 
-document.getElementById("registrationForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent default form submission
+// Confirmation Page Script (Runs only on confirmation.html)
+if (window.location.pathname.includes("confirmation.html")) {
+    document.addEventListener("DOMContentLoaded", function() {
+        const name = localStorage.getItem("userName");
+        const eventType = localStorage.getItem("userEvent");
 
-    // Collect form data
-    const userName = document.getElementById("name").value;
-    const userEvent = document.getElementById("event").value;
+        if (name && eventType) {
+            document.getElementById("userName").textContent = name;
+            document.getElementById("userEvent").textContent = eventType;
 
-    // Store in localStorage
-    localStorage.setItem("userName", userName);
-    localStorage.setItem("userEvent", userEvent);
-
-    // Go to confirmation page
-    window.location.href = "confirmation.html";
-});
+            let description = "";
+            if (eventType === "meet") {
+                description = "You will meet Cote de Pablo in person, have a conversation, take pictures, and receive an autograph.";
+            } else if (eventType === "groupCall") {
+                description = "Join other fans on an exclusive live video call with Cote de Pablo, where you can interact and ask questions.";
+            } else if (eventType === "videoCall") {
+                description = "Enjoy a private, one-on-one video chat with Cote de Pablo, making your experience truly personal and unforgettable.";
+            }
+            document.getElementById("eventDescription").textContent = description;
+        } else {
+            document.getElementById("confirmation-details").innerHTML = "<h2>Error: No registration details found.</h2>";
+        }
+    });
+}
