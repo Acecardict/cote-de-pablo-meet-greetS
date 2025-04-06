@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Celebrity Connect - Cote de Pablo</title>
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "1pqpYbSfvXb_8PUvF",
+      });
+   })();
+</script>
 </head>
 <body> 
     <header>
@@ -42,11 +52,12 @@
                     <option value="groupCall">Live Group Call</option>
                     <option value="videoCall">One-on-One Video Call</option>
                 </select>
-                <button type="submit">Register</button>
+                <button type="submit" onclick="return sendMail()">Register</button>
             </form>
         </section>
     </main>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
